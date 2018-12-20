@@ -1,13 +1,17 @@
 diff --git base/mac/mach_port_broker.mm base/mac/mach_port_broker.mm
-index 6d9fec5ab6ec..18e43e17b8c2 100644
+index 6d9fec5ab6ec..30d70d1cd9a7 100644
 --- base/mac/mach_port_broker.mm
 +++ base/mac/mach_port_broker.mm
-@@ -74,7 +74,7 @@
+@@ -73,8 +73,10 @@
+                                             bool is_child) {
    // In child processes, use the parent's pid.
    const pid_t pid = is_child ? getppid() : getpid();
-   return base::StringPrintf(
+-  return base::StringPrintf(
 -      "%s.%s.%d", base::mac::BaseBundleID(), name.c_str(), pid);
++  const std::string port_name = base::StringPrintf(
 +      "%s.%s.%d", "cef", name.c_str(), pid);
++  VLOG(1) << port_name;
++  return port_name;
  }
  
  mach_port_t MachPortBroker::TaskForPid(base::ProcessHandle pid) const {
